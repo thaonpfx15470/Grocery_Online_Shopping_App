@@ -1,0 +1,19 @@
+<%- include('./includes/header.ejs')%>
+    <div class="card mb-3" style="max-width: 100%;">
+        <div class="row g-0">
+            <div class="col-md-3">
+            <img src="https://vietjack.edu.vn/wp-content/uploads/2022/03/hinh-anh-nguoi-mau-lam-hinh-nen-dien-thoai-9.jpg" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-9">
+            <div class="card-body">
+                <h5 class="card-title">Email: <%= data.email %></h5>
+                <p class="card-text">Phone: <%= data.phone %></p>
+                <p class="card-text">Street: <%= data.address[0].street %></p>
+                <p class="card-text">City: <%= data.address[0].city %></p>
+                <p class="card-text">Country: <%= data.address[0].country %></p>
+                <p class="card-text">Postal code: <%= data.address[0].postalCode %></p>
+            </div>
+            </div>
+        </div>
+    </div>
+<%- include('./includes/footer.ejs')%>

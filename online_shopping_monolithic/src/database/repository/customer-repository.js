@@ -155,7 +155,7 @@ class CustomerRepository {
 
         let cartItems = profile.cart;
 
-        if (cartItems.length > 0) {
+        if (cartItems.length > 1) {
           let isExist = false;
           cartItems.map((item) => {
             if (item.product._id.toString() === product._id.toString()) {

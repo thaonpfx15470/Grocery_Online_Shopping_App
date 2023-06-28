@@ -42,7 +42,9 @@ module.exports = (app) => {
         const { _id } = req.user;
         try {
             const { data } = await userService.GetShopingDetails(_id);
-            return res.status(200).json(data.cart);
+            // console.log(data)
+            // return res.status(200).json(data.cart);
+            return res.render("shoppingCart", {products: data.cart})
         } catch (err) {
             next(err);
         }

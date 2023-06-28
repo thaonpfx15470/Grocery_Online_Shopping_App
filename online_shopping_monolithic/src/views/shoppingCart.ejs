@@ -1,0 +1,29 @@
+<%- include('./includes/header.ejs')%>
+<div class="container">
+    <h1 class="mt-5">My Cart</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+            <% if(products.length > 0) { %>
+                <% products.forEach(item => { %>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div style="height: 40vh; overflow: hidden; line-height: 40vh; text-align: center;">
+                                <img style="max-height: 40vh; object-fit: contain; max-width: 100%;" src="<%=  item.product.banner %>" alt="<%=  item.product.name %>">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><%=  item.product.name %></h5>
+                                <p class="card-text">Description: <%=  item.product.desc %></p>
+                                <p class="card-text">Price: <%=  item.product.price %> $</p>
+                                <p class="card-text">Unit: <%=  item.unit %></p>
+
+                            </div>
+                        </div>
+                    </div>
+    
+                    <% }) %>
+                <% } else { %>
+                    <h1>No Product</h1>
+                <% } %>
+        </div>
+</div>
+<%- include('./includes/footer.ejs')%>

@@ -1,0 +1,111 @@
+<%- include('./includes/header.ejs')%>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between">
+            <h1 class="mt-5">My Wishlist</h1>
+            <div class="dropdown">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add product
+            </button>
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Product type
+            </button>
+            <ul class="dropdown-menu">
+                <% if(products.length > 0) { %>
+                    <% products.forEach(item => { %>
+                <li><a class="dropdown-item" href="/category/<%=  item.type %>"><%=  item.type %></a></li>
+                <% }) %>
+                <% } else { %>
+                    <h1>No Product</h1>
+                <% } %>
+            </ul>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+            <% if(products.length > 0) { %>
+                <% products.forEach(item => { %>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div style="height: 40vh; overflow: hidden; line-height: 40vh; text-align: center;">
+                                <img style="max-height: 40vh; object-fit: contain; max-width: 100%;" src="<%=  item.banner %>" alt="<%=  item.name %>">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><%=  item.name %></h5>
+                                <p class="card-text">Description: <%=  item.desc %></p>
+                                <p class="card-text">Price: <%=  item.price %> $</p>
+                                <a href="/<%=  item._id %>" class="btn btn-dark" >Detail</a>
+                                <form method="POST" action="/wishlist" style="display: inline;">
+                                    <input style="display: none;" type="text" name="_id" value="<%=  item._id %>">
+                                    <button type="submit" class="btn btn-dark"><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                                <form method="POST" action="/cart" style="display: inline;">
+                                    <input style="display: none;" type="text" name="_id" value="<%=  item._id %>">
+                                    <input style="display: none;" type="number" name="qty" value="1">
+                                    <button type="submit" class="btn btn-dark"><i class="fa-solid fa-cart-shopping"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <% }) %>
+                <% } else { %>
+                    <h1>No Product</h1>
+                <% } %>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form method="POST" action="/product/create">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputName" class="form-label">Name</label>
+                        <input name="name" type="text" class="form-control" id="exampleInputName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputType" class="form-label">Type</label>
+                        <input name="type" type="text" class="form-control" id="exampleInputType">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputBanner" class="form-label">Url</label>
+                        <input name="banner" type="text" class="form-control" id="exampleInputBanner">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputUnit" class="form-label">Unit</label>
+                        <input name="unit" type="Number" class="form-control" id="exampleInputUnit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPrice" class="form-label">Price</label>
+                        <input name="price" type="Number" class="form-control" id="exampleInputPrice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputDesc" class="form-label">Description</label>
+                        <input name="desc" type="text" class="form-control" id="exampleInputDesc">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputSuplier" class="form-label">Suplier</label>
+                        <input name="suplier" type="text" class="form-control" id="exampleInputSuplier">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="available" checked>
+                        <label class="form-check-label" for="exampleCheck1">Available</label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+<%- include('./includes/footer.ejs')%>

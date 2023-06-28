@@ -11,10 +11,16 @@ module.exports = (app) => {
     app.post('/product/create', async(req,res,next) => {
         
         try {
-            const { name, desc, type, unit,price, available, suplier, banner } = req.body; 
+            let { name, desc, type, unit,price, available, suplier, banner } = req.body; 
+            if (available = 'on') {
+                available = true;
+            } else {
+                available = false;
+            }
             // validation
             const { data } =  await service.CreateProduct({ name, desc, type, unit,price, available, suplier, banner });
-            return res.json(data);
+            // return res.json(data);
+            return res.redirect(`/${data._id}`);
             
         } catch (err) {
             next(err)    
@@ -28,7 +34,11 @@ module.exports = (app) => {
         
         try {
             const { data } = await service.GetProductsByCategory(type)
-            return res.status(200).json(data);
+            // return res.status(200).json(data);
+            // console.log(data);
+            return res
+                .status(200)
+                .render("productsType", { products: data });
 
         } catch (err) {
             next(err)
@@ -42,7 +52,12 @@ module.exports = (app) => {
 
         try {
             const { data } = await service.GetProductDescription(productId);
-            return res.status(200).json(data);
+            // return res.status(200).json(data);
+            // console.log(data)
+            return res
+              .status(200)
+              .render("productDetail", { data });
+
 
         } catch (err) {
             next(err)
@@ -63,14 +78,15 @@ module.exports = (app) => {
        
     });
      
-    app.put('/wishlist',UserAuth, async (req,res,next) => {
+    app.post('/wishlist',UserAuth, async (req,res,next) => {
 
         const { _id } = req.user;
         
         try {
             const product = await service.GetProductById(req.body._id);
             const wishList = await customerService.AddToWishlist(_id, product)
-            return res.status(200).json(wishList);
+            // return res.status(200).json(wishList);
+            return res.redirect("/")
         } catch (err) {
             
         }
@@ -91,7 +107,7 @@ module.exports = (app) => {
     });
 
 
-    app.put('/cart',UserAuth, async (req,res,next) => {
+    app.post('/cart',UserAuth, async (req,res,next) => {
         
         const { _id, qty } = req.body;
         
@@ -99,8 +115,9 @@ module.exports = (app) => {
             const product = await service.GetProductById(_id);
     
             const result =  await customerService.ManageCart(req.user._id, product, qty, false);
-    
-            return res.status(200).json(result);
+            // console.log(result)
+            // return res.status(200).json(result);
+            return res.redirect("/");
             
         } catch (err) {
             next(err)
@@ -124,8 +141,9 @@ module.exports = (app) => {
     app.get('/', async (req,res,next) => {
         //check validation
         try {
-            const { data} = await service.GetProducts();        
-            return res.status(200).json(data);
+            const { data} = await service.GetProducts();      
+            // return res.status(200).json(data);
+            return res.status(200).render("products", {products: data.products})
         } catch (error) {
             next(err)
         }

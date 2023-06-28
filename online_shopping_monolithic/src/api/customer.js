@@ -20,7 +20,8 @@ module.exports = (app) => {
 
       const { data } = await service.SignIn({ email, password });
 
-      return res.json(data);
+      return res.redirect("/customer/profile");
+
     } catch (err) {
       next(err);
     }
@@ -49,7 +50,8 @@ module.exports = (app) => {
     try {
       const { _id } = req.user;
       const { data } = await service.GetProfile({ _id });
-      return res.json(data);
+      // return res.json(data);
+      return res.render("customerProfile", {data})
     } catch (err) {
       next(err);
     }
@@ -70,7 +72,8 @@ module.exports = (app) => {
     try {
       const { _id } = req.user;
       const { data } = await service.GetWishList(_id);
-      return res.status(200).json(data);
+      // return res.status(200).json(data);
+      return res.render("customerWishlist", {products: data})
     } catch (err) {
       next(err);
     }
